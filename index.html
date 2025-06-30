@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>_.pv_o | Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #181818;
+      color: #fff;
+      font-family: 'Kanit', sans-serif;
+      margin: 0;
+    }
+    .profile-container {
+      max-width: 430px;
+      margin: 40px auto;
+      background: #232323;
+      border-radius: 18px;
+      padding: 30px 20px 40px 20px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .profile-pic {
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #444;
+    }
+    .profile-info h2 {
+      margin: 0 0 2px 0;
+      font-size: 1.37rem;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+    }
+    .profile-info p {
+      margin: 4px 0 0 0;
+      font-size: 1.04rem;
+      color: #bdbdbd;
+      line-height: 1.3;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 28px 0 15px 0;
+      text-align: center;
+    }
+    .stats div {
+      flex: 1;
+    }
+    .stats .num {
+      font-size: 1.20rem;
+      font-weight: 700;
+    }
+    .stats .label {
+      font-size: 0.97rem;
+      letter-spacing: 0.5px;
+      color: #bdbdbd;
+    }
+    .btn-row {
+      display: flex;
+      gap: 13px;
+      margin-bottom: 18px;
+      justify-content: center;
+    }
+    .btn {
+      min-width: 120px;
+      background: #333;
+      border: none;
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 0;
+      font-size: 1.06rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'Kanit', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .btn.following {
+      background: #0e0e0e;
+      color: #bbb;
+    }
+    @media (max-width: 600px) {
+      .profile-container {
+        max-width: 97vw;
+        padding: 18px 5vw 30px 5vw;
+      }
+      .profile-header {
+        gap: 13px;
+      }
+      .profile-pic {
+        width: 65px;
+        height: 65px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <img src="https://instagram.fnak2-1.fna.fbcdn.net/v/t1.15752-9/514432467_1236926187736424_7663683534690383855_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=T1CB2N_Z4t4Q7kNvwExzvBo&_nc_oc=Adk9jM0NcrfNHRI72jqTBPGOgS15GyGBUYoCFxHQbwtpGx_3--zmoBq05giT2piqy_xdLSH1oWx2Z-htZN5NgKIU&_nc_zt=23&_nc_ht=instagram.fnak2-1.fna&oh=03_Q7cD2gH6e4eQ5_xH39JdowUSAEN74A8u_ZvEu6G9MnuWMx0bQg&oe=6889D10F" class="profile-pic" alt="Profile">
+      <div class="profile-info">
+        <h2>Weerapong</h2>
+        <p>Website by Weerapong</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div>
+        <div class="num" id="followers-count">0</div>
+        <div class="label">followers</div>
+      </div>
+      <div>
+        <div class="num" id="views-count">0</div>
+        <div class="label">views</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="follow-btn">Follow</button>
+    </div>
+  </div>
+
+  <script>
+    // อ่านค่าจาก localStorage (ถ้ายังไม่มี ให้เริ่มที่ 0)
+    let followers = parseInt(localStorage.getItem('followers') || 0);
+    let views = parseInt(localStorage.getItem('views') || 0);
+    let isFollowing = localStorage.getItem('isFollowing') === 'true';
+
+    // เพิ่มยอดเข้าชมทุกครั้งที่มีการเข้าเว็บ
+    views++;
+    localStorage.setItem('views', views);
+    document.getElementById('views-count').textContent = views;
+
+    // Followers system
+    const followBtn = document.getElementById('follow-btn');
+    const followersCount = document.getElementById('followers-count');
+
+    function updateFollowUI() {
+      if (isFollowing) {
+        followBtn.textContent = 'Following';
+        followBtn.classList.add('following');
+      } else {
+        followBtn.textContent = 'Follow';
+        followBtn.classList.remove('following');
+      }
+      followersCount.textContent = followers;
+    }
+
+    followBtn.addEventListener('click', () => {
+      if (isFollowing) {
+        followers--;
+        isFollowing = false;
+      } else {
+        followers++;
+        isFollowing = true;
+      }
+      localStorage.setItem('followers', followers);
+      localStorage.setItem('isFollowing', isFollowing);
+      updateFollowUI();
+    });
+
+    updateFollowUI();
+  </script>
+</body>
+</html>
